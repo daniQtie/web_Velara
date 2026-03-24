@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velàra — Contact & Enquiries</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#F7F3ED;--beige:#E8DFCF;--warm:#D4C4A8;
+  --gold:#B8960C;--gold-light:#D4AE3A;
+  --dark:#2C2416;--mid:#6B5B3E;--text:#3D3020;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;background:rgba(247,243,237,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--beige);}
+.nav-logo{font-family:var(--serif);font-size:1.6rem;font-weight:300;letter-spacing:.15em;color:var(--dark);text-decoration:none;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:.7rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .3s;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.nav-book{font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:.6rem 1.4rem;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;}
+.nav-book:hover{background:var(--gold);color:var(--dark);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.hamburger span{display:block;width:24px;height:1.5px;background:var(--dark);transition:all .3s;}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:190;background:var(--dark);flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:var(--serif);font-size:2rem;font-weight:300;color:var(--cream);text-decoration:none;transition:color .3s;}
+.mobile-menu a:hover{color:var(--gold-light);}
+.mobile-menu .mob-book{font-family:var(--sans);font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:.9rem 2.5rem;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;margin-top:1rem;text-decoration:none;display:inline-block;}
+
+/* HERO */
+.page-hero{padding:9rem 4rem 5rem;background:var(--dark);position:relative;overflow:hidden;}
+.page-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&q=80');background-size:cover;background-position:center;opacity:.15;}
+.page-hero-content{position:relative;z-index:1;}
+.breadcrumb{display:flex;align-items:center;gap:.6rem;margin-bottom:1.5rem;}
+.breadcrumb a{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,243,237,.45);text-decoration:none;}
+.breadcrumb a:hover{color:var(--gold-light);}
+.breadcrumb i{font-size:.5rem;color:rgba(247,243,237,.25);}
+.breadcrumb span{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);}
+.page-hero h1{font-family:var(--serif);font-size:clamp(2.5rem,6vw,5rem);font-weight:300;color:var(--cream);line-height:1.1;letter-spacing:.04em;margin-bottom:1rem;}
+.page-hero h1 em{font-style:italic;color:var(--gold-light);}
+.page-hero p{font-size:.9rem;font-weight:300;color:rgba(247,243,237,.5);max-width:480px;line-height:1.85;}
+
+/* MAIN GRID */
+.main{max-width:1100px;margin:0 auto;padding:5rem 4rem 7rem;display:grid;grid-template-columns:1fr 420px;gap:5rem;align-items:start;}
+
+/* CONTACT INFO */
+.contact-info{}
+.section-tag{font-size:.63rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:1rem;}
+.section-tag::before{content:'';display:inline-block;width:28px;height:1px;background:var(--gold);}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:300;line-height:1.15;color:var(--dark);margin-bottom:1.2rem;}
+.section-title em{font-style:italic;color:var(--gold);}
+.section-body{font-size:.88rem;font-weight:300;line-height:1.95;color:var(--mid);margin-bottom:2.5rem;}
+
+.info-blocks{display:flex;flex-direction:column;gap:0;}
+.info-block{display:flex;gap:1.2rem;align-items:flex-start;padding:1.5rem 0;border-bottom:1px solid var(--beige);}
+.info-block:first-child{border-top:1px solid var(--beige);}
+.info-icon{width:42px;height:42px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold);font-size:.85rem;}
+.info-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--warm);margin-bottom:.3rem;}
+.info-value{font-size:.88rem;font-weight:400;color:var(--text);line-height:1.6;}
+.info-value a{color:var(--gold);text-decoration:none;}
+.info-value a:hover{text-decoration:underline;}
+
+.enquiry-types{margin-top:2.5rem;}
+.enquiry-types-title{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--mid);margin-bottom:1rem;}
+.enquiry-chips{display:flex;flex-wrap:wrap;gap:.5rem;}
+.chip{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .9rem;border:1px solid var(--warm);color:var(--mid);cursor:pointer;transition:all .2s;}
+.chip:hover,.chip.active{background:var(--gold);border-color:var(--gold);color:var(--dark);}
+
+/* ENQUIRY FORM */
+.form-card{background:#fff;border:1px solid var(--beige);padding:2.5rem;position:sticky;top:100px;}
+.form-title{font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--dark);margin-bottom:.3rem;}
+.form-title em{font-style:italic;color:var(--gold);}
+.form-sub{font-size:.75rem;color:var(--warm);margin-bottom:2rem;letter-spacing:.05em;}
+.form-group{margin-bottom:1.2rem;}
+.form-label{display:block;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);margin-bottom:.45rem;}
+.form-label .req{color:var(--gold);}
+.form-input,.form-textarea,.form-select{width:100%;border:1px solid var(--beige);background:#faf8f5;padding:.75rem 1rem;font-family:var(--sans);font-size:.85rem;color:var(--text);outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none;}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--gold);background:#fff;}
+.form-textarea{resize:vertical;min-height:120px;line-height:1.65;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.btn-submit{width:100%;padding:1rem;background:var(--gold);border:none;cursor:pointer;font-family:var(--sans);font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--dark);transition:background .3s;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:.6rem;}
+.btn-submit:hover{background:var(--gold-light);}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;}
+
+/* FORM STATES */
+.form-success{display:none;text-align:center;padding:2rem 1rem;}
+.form-success i{font-size:2.5rem;color:var(--gold);margin-bottom:1rem;display:block;}
+.form-success h3{font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--dark);margin-bottom:.5rem;}
+.form-success h3 em{font-style:italic;color:var(--gold);}
+.form-success p{font-size:.82rem;font-weight:300;color:var(--mid);line-height:1.8;}
+.form-error-msg{font-size:.72rem;color:#c0392b;margin-top:.5rem;display:none;padding:.5rem .8rem;background:#fdf0ee;border-left:2px solid #c0392b;}
+
+/* MAP SECTION */
+.map-section{background:var(--dark);padding:5rem 4rem;}
+.map-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.map-text .section-tag{color:var(--gold-light);}
+.map-text .section-tag::before{background:var(--gold-light);}
+.map-text .section-title{color:var(--cream);}
+.map-text .section-body{color:rgba(247,243,237,.5);}
+.map-embed{width:100%;height:320px;border:none;opacity:.85;filter:grayscale(20%);}
+.map-directions{display:flex;flex-direction:column;gap:.8rem;margin-top:1.8rem;}
+.map-dir-item{display:flex;align-items:center;gap:.8rem;font-size:.8rem;font-weight:300;color:rgba(247,243,237,.55);}
+.map-dir-item i{color:var(--gold-light);font-size:.85rem;width:18px;text-align:center;}
+
+/* FOOTER */
+footer{background:#1a1208;padding:3rem 4rem 2rem;color:rgba(247,243,237,.5);}
+.footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-logo{font-family:var(--serif);font-size:1.4rem;font-weight:300;letter-spacing:.15em;color:var(--cream);}
+.footer-links{display:flex;gap:2rem;font-size:.7rem;flex-wrap:wrap;}
+.footer-links a{color:rgba(247,243,237,.4);text-decoration:none;transition:color .2s;letter-spacing:.1em;}
+.footer-links a:hover{color:var(--cream);}
+.social-links{display:flex;gap:.8rem;}
+.social-link{width:32px;height:32px;border:1px solid rgba(247,243,237,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;color:rgba(247,243,237,.4);text-decoration:none;transition:all .3s;}
+.social-link:hover{border-color:var(--gold);color:var(--gold);}
+
+/* RESPONSIVE */
+@media(max-width:1024px){nav{padding:1.2rem 2.5rem;}.main{padding:4rem 2.5rem 6rem;gap:3rem;}.map-section{padding:4rem 2.5rem;}footer{padding:2.5rem 2.5rem 1.8rem;}}
+@media(max-width:768px){nav{padding:1rem 1.5rem;}.nav-links,.nav-book{display:none;}.hamburger{display:flex;}.page-hero{padding:7rem 1.5rem 3.5rem;}.main{grid-template-columns:1fr;padding:3rem 1.5rem 5rem;gap:3rem;}.form-card{position:static;}.map-inner{grid-template-columns:1fr;gap:2.5rem;}.map-section{padding:3.5rem 1.5rem;}footer{padding:2rem 1.5rem 1.5rem;}.footer-row{flex-direction:column;align-items:flex-start;}}
+@media(max-width:480px){.form-row{grid-template-columns:1fr;}.page-hero h1{font-size:2.2rem;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">Velàra</a>
+  <ul class="nav-links">
+    <li><a href="index.html#rooms">Rooms</a></li>
+    <li><a href="index.html#amenities">Experiences</a></li>
+    <li><a href="menu.html">Dining</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="announcements.html">Announcements</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <a class="nav-book" href="rooms.html">Reserve Now</a>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMenu()">Home</a>
+  <a href="rooms.html" onclick="closeMenu()">Rooms</a>
+  <a href="menu.html" onclick="closeMenu()">Dining</a>
+  <a href="gallery.html" onclick="closeMenu()">Gallery</a>
+  <a href="announcements.html" onclick="closeMenu()">Announcements</a>
+  <a href="contact.html" onclick="closeMenu()">Contact</a>
+  <a class="mob-book" href="rooms.html" onclick="closeMenu()">Reserve Now</a>
+</div>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <span>Contact & Enquiries</span>
+    </div>
+    <h1>Get in <em>Touch</em></h1>
+    <p>Our concierge team is available around the clock to assist with reservations, special requests, and any enquiries you may have.</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LEFT: CONTACT INFO -->
+  <div class="contact-info">
+    <p class="section-tag">We're Here for You</p>
+    <h2 class="section-title">How Can We <em>Help?</em></h2>
+    <p class="section-body">Whether you're planning a stay, celebrating a special occasion, or simply wish to learn more about Velàra, our team is ready to make every detail extraordinary.</p>
+
+    <div class="info-blocks">
+      <div class="info-block">
+        <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+        <div>
+          <div class="info-label">Reservations & General</div>
+          <div class="info-value"><a href="tel:+302286071000">+30 228 607 1000</a></div>
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+        <div>
+          <div class="info-label">Email Us</div>
+          <div class="info-value"><a href="mailto:hello@velara-santorini.com">hello@velara-santorini.com</a></div>
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+        <div>
+          <div class="info-label">Address</div>
+          <div class="info-value">Oia Caldera Cliffs<br>Santorini 847 02, Greece</div>
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
+        <div>
+          <div class="info-label">Concierge Hours</div>
+          <div class="info-value">24 hours · 7 days a week<br><span style="font-size:.78rem;color:var(--warm);">Response time: within 2 hours</span></div>
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-icon"><i class="fa-brands fa-whatsapp"></i></div>
+        <div>
+          <div class="info-label">WhatsApp Concierge</div>
+          <div class="info-value"><a href="https://wa.me/302286071000" target="_blank">+30 228 607 1000</a><br><span style="font-size:.78rem;color:var(--warm);">Fastest response channel</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="enquiry-types">
+      <div class="enquiry-types-title">What can we help you with?</div>
+      <div class="enquiry-chips">
+        <span class="chip" onclick="setEnquiryType(this,'Room Reservation')">Room Reservation</span>
+        <span class="chip" onclick="setEnquiryType(this,'Dining & Menus')">Dining & Menus</span>
+        <span class="chip" onclick="setEnquiryType(this,'Spa Booking')">Spa Booking</span>
+        <span class="chip" onclick="setEnquiryType(this,'Events & Weddings')">Events & Weddings</span>
+        <span class="chip" onclick="setEnquiryType(this,'Helicopter Transfer')">Helicopter Transfer</span>
+        <span class="chip" onclick="setEnquiryType(this,'Special Occasion')">Special Occasion</span>
+        <span class="chip" onclick="setEnquiryType(this,'Group Booking')">Group Booking</span>
+        <span class="chip" onclick="setEnquiryType(this,'General Enquiry')">General Enquiry</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM CARD -->
+  <div class="form-card">
+
+    <!-- SUCCESS STATE -->
+    <div class="form-success" id="formSuccess">
+      <i class="fa-solid fa-circle-check"></i>
+      <h3>Message <em>Sent!</em></h3>
+      <p>Thank you for reaching out to Velàra. Our concierge team will respond to your enquiry within 2 hours.</p>
+      <button onclick="resetForm()" style="margin-top:1.5rem;font-family:var(--sans);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;padding:.8rem 1.8rem;background:transparent;border:1px solid var(--warm);color:var(--mid);cursor:pointer;transition:all .3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--warm)';this.style.color='var(--mid)'">Send Another Enquiry</button>
+    </div>
+
+    <!-- FORM -->
+    <div id="formWrap">
+      <div class="form-title">Send an <em>Enquiry</em></div>
+      <div class="form-sub">All fields marked * are required. We reply within 2 hours.</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-fname">First Name <span class="req">*</span></label>
+          <input class="form-input" id="f-fname" type="text" placeholder="Juan"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-lname">Last Name <span class="req">*</span></label>
+          <input class="form-input" id="f-lname" type="text" placeholder="dela Cruz"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="f-email">Email Address <span class="req">*</span></label>
+        <input class="form-input" id="f-email" type="email" placeholder="juan@example.com"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="f-phone">Phone / WhatsApp</label>
+        <input class="form-input" id="f-phone" type="tel" placeholder="+63 912 345 6789"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="f-type">Type of Enquiry <span class="req">*</span></label>
+        <select class="form-select" id="f-type">
+          <option value="">— Select enquiry type —</option>
+          <option>Room Reservation</option>
+          <option>Dining & Menus</option>
+          <option>Spa Booking</option>
+          <option>Events & Weddings</option>
+          <option>Helicopter Transfer</option>
+          <option>Special Occasion</option>
+          <option>Group Booking</option>
+          <option>General Enquiry</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-checkin">Preferred Check-in</label>
+          <input class="form-input" id="f-checkin" type="date"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-checkout">Preferred Check-out</label>
+          <input class="form-input" id="f-checkout" type="date"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="f-guests">Number of Guests</label>
+        <select class="form-select" id="f-guests">
+          <option value="">— Select —</option>
+          <option>1 Adult</option>
+          <option>2 Adults</option>
+          <option>2 Adults, 1 Child</option>
+          <option>2 Adults, 2 Children</option>
+          <option>3+ Adults</option>
+          <option>Group (6+)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="f-msg">Message <span class="req">*</span></label>
+        <textarea class="form-textarea" id="f-msg" placeholder="Tell us about your stay, special requests, or any questions you have..."></textarea>
+      </div>
+
+      <div class="form-error-msg" id="formError"><i class="fa-solid fa-circle-exclamation" style="margin-right:.4rem;"></i><span id="errorText"></span></div>
+
+      <button class="btn-submit" id="submitBtn" onclick="submitEnquiry()">
+        <i class="fa-solid fa-paper-plane"></i> Send Enquiry
+      </button>
+
+      <p style="font-size:.65rem;color:var(--warm);margin-top:1rem;text-align:center;line-height:1.6;">
+        By submitting, you agree to our <a href="#" style="color:var(--gold);">Privacy Policy</a>. We never share your details.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- MAP -->
+<div class="map-section">
+  <div class="map-inner">
+    <div class="map-text">
+      <p class="section-tag">Find Us</p>
+      <h2 class="section-title">Getting to <em>Velàra</em></h2>
+      <p class="section-body">Perched on the caldera cliffs of Oia, Velàra is accessible by road, sea, or private helicopter from Santorini Airport.</p>
+      <div class="map-directions">
+        <div class="map-dir-item"><i class="fa-solid fa-plane-arrival"></i> 35 min by car from Santorini Airport</div>
+        <div class="map-dir-item"><i class="fa-solid fa-helicopter"></i> 8 min by private helicopter</div>
+        <div class="map-dir-item"><i class="fa-solid fa-ship"></i> Water taxi available from Fira port</div>
+        <div class="map-dir-item"><i class="fa-solid fa-car"></i> Complimentary valet parking on arrival</div>
+        <div class="map-dir-item"><i class="fa-solid fa-circle-info"></i> GPS: 36.4618° N, 25.3753° E</div>
+      </div>
+    </div>
+    <iframe
+      class="map-embed"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3167.0!2d25.3753!3d36.4618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzbCsDI3JzQyLjUiTiAyNcKwMjInMzEuMSJF!5e0!3m2!1sen!2sph!4v1234567890"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Velàra Hotel Location">
+    </iframe>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-row">
+    <div class="footer-logo">Velàra</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="menu.html">Dining</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="social-links">
+      <a class="social-link" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a class="social-link" href="#"><i class="fa-brands fa-instagram"></i></a>
+      <a class="social-link" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <a class="social-link" href="#"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+  </div>
+  <p style="font-size:.68rem;margin-top:1.5rem;text-align:center;color:rgba(247,243,237,.18);">© 2026 Velàra Hotel, Santorini. All rights reserved.</p>
+</footer>
+
+<!-- ============================================================
+  EMAILJS SETUP GUIDE
+  ============================================================
+  1. Go to https://www.emailjs.com and sign up (free)
+  2. Add an Email Service → connect your Gmail/Outlook
+     → copy the SERVICE ID (e.g. "service_abc123")
+  3. Create an Email Template with these variables:
+       {{from_name}}  {{from_email}}  {{phone}}
+       {{enquiry_type}}  {{checkin}}  {{checkout}}
+       {{guests}}  {{message}}
+     → copy the TEMPLATE ID (e.g. "template_xyz789")
+  4. Go to Account → API Keys → copy your PUBLIC KEY
+  5. Replace the 3 placeholder values below:
+       YOUR_SERVICE_ID   → your Service ID
+       YOUR_TEMPLATE_ID  → your Template ID
+       YOUR_PUBLIC_KEY   → your Public Key
+  ============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+// ============================================================
+// ✏️  REPLACE THESE 3 VALUES AFTER EMAILJS SETUP
+// ============================================================
+const EMAILJS_SERVICE_ID  = 'service_z3ph55o';
+const EMAILJS_TEMPLATE_ID = 'template_4wdouhv';
+const EMAILJS_PUBLIC_KEY  = '2QXkxh4_dNyK3ziI6';
+// ============================================================
+
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+// NAV
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  const o = hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open', o);
+  document.body.style.overflow = o ? 'hidden' : '';
+});
+function closeMenu() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ENQUIRY TYPE CHIPS — sync with dropdown
+function setEnquiryType(chip, type) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  document.getElementById('f-type').value = type;
+}
+
+// SUBMIT
+function submitEnquiry() {
+  const fname    = document.getElementById('f-fname').value.trim();
+  const lname    = document.getElementById('f-lname').value.trim();
+  const email    = document.getElementById('f-email').value.trim();
+  const phone    = document.getElementById('f-phone').value.trim();
+  const type     = document.getElementById('f-type').value;
+  const checkin  = document.getElementById('f-checkin').value;
+  const checkout = document.getElementById('f-checkout').value;
+  const guests   = document.getElementById('f-guests').value;
+  const msg      = document.getElementById('f-msg').value.trim();
+
+  // Validation
+  const errEl  = document.getElementById('formError');
+  const errTxt = document.getElementById('errorText');
+  function showErr(txt) {
+    errTxt.textContent = txt;
+    errEl.style.display = 'block';
+    errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  errEl.style.display = 'none';
+
+  if (!fname)  { showErr('Please enter your first name.'); return; }
+  if (!lname)  { showErr('Please enter your last name.'); return; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('Please enter a valid email address.'); return; }
+  if (!type)   { showErr('Please select an enquiry type.'); return; }
+  if (!msg)    { showErr('Please enter your message.'); return; }
+
+  // Button loading state
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+  // Check if EmailJS is configured
+  if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID') {
+    // Demo mode — simulate success after 1.5s
+    setTimeout(() => {
+      showSuccess();
+    }, 1500);
+    return;
+  }
+
+  // Real EmailJS send
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    from_name:    fname + ' ' + lname,
+    from_email:   email,
+    phone:        phone || 'Not provided',
+    enquiry_type: type,
+    checkin:      checkin || 'Not specified',
+    checkout:     checkout || 'Not specified',
+    guests:       guests || 'Not specified',
+    message:      msg,
+  }).then(() => {
+    showSuccess();
+  }).catch((err) => {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Enquiry';
+    showErr('Something went wrong. Please try again or email us directly.');
+    console.error('EmailJS error:', err);
+  });
+}
+
+function showSuccess() {
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+function resetForm() {
+  document.getElementById('formWrap').style.display = 'block';
+  document.getElementById('formSuccess').style.display = 'none';
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Enquiry';
+  ['f-fname','f-lname','f-email','f-phone','f-msg'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  ['f-type','f-guests'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  ['f-checkin','f-checkout'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+}
+</script>
+</body>
+</html>

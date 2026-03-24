@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velàra — Admin: Manage Announcements</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#F7F3ED;--beige:#E8DFCF;--warm:#D4C4A8;
+  --gold:#B8960C;--gold-light:#D4AE3A;
+  --dark:#2C2416;--mid:#6B5B3E;--text:#3D3020;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost',sans-serif;
+  --red:#C0392B;--green:#27AE60;--blue:#2980B9;
+}
+body{font-family:var(--sans);background:#f4f1ec;color:var(--text);min-height:100vh;}
+
+/* TOP BAR */
+.topbar{background:var(--dark);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+.topbar-logo{font-family:var(--serif);font-size:1.3rem;font-weight:300;letter-spacing:.15em;color:var(--cream);}
+.topbar-logo em{font-style:italic;color:var(--gold-light);}
+.topbar-links{display:flex;gap:1rem;}
+.topbar-link{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(247,243,237,.5);text-decoration:none;transition:color .2s;}
+.topbar-link:hover{color:var(--gold-light);}
+.topbar-link.active{color:var(--gold-light);}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:1fr 380px;gap:2rem;max-width:1200px;margin:2rem auto;padding:0 2rem 4rem;}
+
+/* PANEL */
+.panel{background:#fff;border:1px solid var(--beige);padding:2rem;}
+.panel-title{font-family:var(--serif);font-size:1.5rem;font-weight:300;color:var(--dark);margin-bottom:.3rem;}
+.panel-title em{font-style:italic;color:var(--gold);}
+.panel-sub{font-size:.75rem;color:var(--warm);margin-bottom:1.8rem;letter-spacing:.05em;}
+
+/* FORM */
+.form-group{margin-bottom:1.3rem;}
+.form-label{display:block;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);margin-bottom:.5rem;}
+.form-label .req{color:var(--gold);}
+.form-input,.form-textarea,.form-select{width:100%;border:1px solid var(--beige);background:#faf8f5;padding:.72rem 1rem;font-family:var(--sans);font-size:.85rem;color:var(--text);outline:none;transition:border-color .2s;appearance:none;}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--gold);}
+.form-textarea{resize:vertical;min-height:100px;line-height:1.6;}
+.form-textarea.tall{min-height:160px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-hint{font-size:.65rem;color:var(--warm);margin-top:.3rem;}
+.char-count{font-size:.65rem;color:var(--warm);text-align:right;margin-top:.2rem;}
+.cat-btns{display:flex;gap:.6rem;}
+.cat-btn{font-family:var(--sans);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:.5rem 1.2rem;border:1px solid var(--beige);background:transparent;color:var(--mid);cursor:pointer;transition:all .2s;flex:1;}
+.cat-btn:hover{border-color:var(--gold);color:var(--gold);}
+.cat-btn.active-promo{background:#FFF3E0;border-color:#F4A261;color:#7B3F00;}
+.cat-btn.active-event{background:#E8F1FB;border-color:#5A9BD4;color:#1A3A5C;}
+.cat-btn.active-news{background:#EEF5E8;border-color:#7BAF4A;color:#2C3E1A;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;border-top:1px solid var(--beige);}
+.toggle-label{font-size:.78rem;color:var(--text);}
+.toggle-sub{font-size:.65rem;color:var(--warm);}
+.toggle{width:44px;height:24px;background:var(--beige);border:none;border-radius:12px;cursor:pointer;position:relative;transition:background .3s;flex-shrink:0;}
+.toggle.on{background:var(--gold);}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .3s;}
+.toggle.on::after{left:23px;}
+
+/* SUBMIT */
+.btn-submit{width:100%;padding:1rem;background:var(--gold);border:none;cursor:pointer;font-family:var(--sans);font-size:.75rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--dark);transition:background .3s;margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:.6rem;}
+.btn-submit:hover{background:var(--gold-light);}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;}
+.btn-clear{width:100%;padding:.7rem;background:transparent;border:1px solid var(--beige);cursor:pointer;font-family:var(--sans);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);transition:all .2s;margin-top:.5rem;}
+.btn-clear:hover{border-color:var(--red);color:var(--red);}
+
+/* TOAST */
+.toast{position:fixed;top:1.5rem;right:1.5rem;z-index:999;padding:1rem 1.5rem;font-size:.8rem;font-weight:500;display:none;align-items:center;gap:.6rem;box-shadow:0 4px 20px rgba(0,0,0,.15);max-width:320px;}
+.toast.show{display:flex;}
+.toast.success{background:var(--green);color:#fff;}
+.toast.error{background:var(--red);color:#fff;}
+.toast i{font-size:.9rem;}
+
+/* LIST PANEL */
+.list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem;}
+.list-search{border:1px solid var(--beige);background:#faf8f5;padding:.5rem .8rem;font-family:var(--sans);font-size:.8rem;color:var(--text);outline:none;flex:1;min-width:0;transition:border-color .2s;}
+.list-search:focus{border-color:var(--gold);}
+.list-total{font-size:.7rem;letter-spacing:.1em;color:var(--warm);white-space:nowrap;}
+
+.ann-list{display:flex;flex-direction:column;gap:2px;}
+.ann-list-item{background:#faf8f5;border:1px solid var(--beige);padding:1rem 1.2rem;display:grid;grid-template-columns:auto 1fr auto;gap:.8rem;align-items:center;transition:border-color .2s;}
+.ann-list-item:hover{border-color:var(--warm);}
+.ali-cat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.ali-cat-dot.promo{background:#F4A261;}
+.ali-cat-dot.event{background:#5A9BD4;}
+.ali-cat-dot.news{background:#7BAF4A;}
+.ali-title{font-size:.84rem;font-weight:500;color:var(--text);margin-bottom:.2rem;line-height:1.3;}
+.ali-meta{font-size:.65rem;color:var(--warm);display:flex;gap:.6rem;flex-wrap:wrap;}
+.ali-new{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .45rem;background:var(--gold);color:var(--dark);margin-left:.3rem;vertical-align:middle;}
+.ali-actions{display:flex;gap:.4rem;flex-shrink:0;}
+.ali-btn{width:30px;height:30px;border:1px solid var(--beige);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--mid);transition:all .2s;}
+.ali-btn:hover.edit{border-color:var(--blue);color:var(--blue);}
+.ali-btn:hover.del{border-color:var(--red);color:var(--red);}
+
+.empty-list{text-align:center;padding:3rem;color:var(--warm);font-size:.82rem;}
+.empty-list i{font-size:2rem;display:block;margin-bottom:.8rem;opacity:.4;}
+
+/* CODE OUTPUT */
+.code-panel{margin-top:2rem;}
+.code-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;}
+.code-title{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);}
+.btn-copy{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:.4rem .9rem;border:1px solid var(--beige);background:transparent;cursor:pointer;color:var(--mid);transition:all .2s;display:flex;align-items:center;gap:.3rem;}
+.btn-copy:hover{border-color:var(--gold);color:var(--gold);}
+.code-box{background:#1e1a14;color:#d4ae3a;font-family:monospace;font-size:.72rem;padding:1.2rem;line-height:1.7;white-space:pre-wrap;word-break:break-all;max-height:220px;overflow-y:auto;border:1px solid #3a3020;}
+
+/* INSTRUCTIONS */
+.instructions{background:var(--beige);padding:1.5rem;margin-top:1.5rem;}
+.inst-title{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;}
+.inst-step{display:flex;gap:.8rem;margin-bottom:.7rem;font-size:.78rem;color:var(--mid);line-height:1.6;}
+.inst-num{font-family:var(--serif);font-size:1rem;color:var(--gold);flex-shrink:0;font-weight:300;line-height:1;}
+
+/* RESPONSIVE */
+@media(max-width:900px){.layout{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+@media(max-width:480px){.topbar{flex-direction:column;gap:.8rem;align-items:flex-start;}.layout{padding:0 1rem 3rem;}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">Velàra <em>Admin</em></div>
+  <div class="topbar-links">
+    <a class="topbar-link active" href="admin-announcements.html"><i class="fa-solid fa-bullhorn" style="margin-right:.3rem;"></i>Announcements</a>
+    <a class="topbar-link" href="announcements.html" target="_blank"><i class="fa-solid fa-eye" style="margin-right:.3rem;"></i>View Live Page</a>
+    <a class="topbar-link" href="index.html" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right:.3rem;"></i>Website</a>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+
+<div class="layout">
+
+  <!-- LEFT: FORM -->
+  <div>
+    <div class="panel">
+      <div class="panel-title">Add New <em>Announcement</em></div>
+      <div class="panel-sub">Fill in the details below. Copy the generated code into announcements.html.</div>
+
+      <!-- CATEGORY -->
+      <div class="form-group">
+        <div class="form-label">Category <span class="req">*</span></div>
+        <div class="cat-btns">
+          <button class="cat-btn" id="cat-promo" onclick="selectCat('promo')"><i class="fa-solid fa-tag" style="margin-right:.3rem;"></i>Promotion</button>
+          <button class="cat-btn" id="cat-event" onclick="selectCat('event')"><i class="fa-solid fa-calendar-star" style="margin-right:.3rem;"></i>Event</button>
+          <button class="cat-btn" id="cat-news"  onclick="selectCat('news')"><i class="fa-solid fa-newspaper" style="margin-right:.3rem;"></i>Hotel News</button>
+        </div>
+        <input type="hidden" id="f-cat" value="">
+      </div>
+
+      <!-- TITLE -->
+      <div class="form-group">
+        <label class="form-label" for="f-title">Title <span class="req">*</span></label>
+        <input class="form-input" id="f-title" type="text" placeholder="e.g. Summer Escape — 30% Off" maxlength="90" oninput="charCount('f-title','cc-title',90)"/>
+        <div class="char-count" id="cc-title">0 / 90</div>
+      </div>
+
+      <!-- EXCERPT -->
+      <div class="form-group">
+        <label class="form-label" for="f-excerpt">Short Description <span class="req">*</span><span style="font-size:.6rem;color:var(--warm);margin-left:.4rem;">(shown on card)</span></label>
+        <textarea class="form-textarea" id="f-excerpt" placeholder="Brief summary visible on the announcements list..." maxlength="200" oninput="charCount('f-excerpt','cc-excerpt',200)"></textarea>
+        <div class="char-count" id="cc-excerpt">0 / 200</div>
+      </div>
+
+      <!-- FULL CONTENT -->
+      <div class="form-group">
+        <label class="form-label" for="f-content">Full Content <span class="req">*</span><span style="font-size:.6rem;color:var(--warm);margin-left:.4rem;">(shown in popup)</span></label>
+        <textarea class="form-textarea tall" id="f-content" placeholder="Full announcement details. You can use HTML tags like &lt;p&gt;, &lt;strong&gt;, &lt;br&gt;..."></textarea>
+        <div class="form-hint">Wrap paragraphs in &lt;p&gt;...&lt;/p&gt; for best formatting.</div>
+      </div>
+
+      <!-- IMAGE + DATE -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-image">Image URL <span style="font-size:.6rem;color:var(--warm);">(optional)</span></label>
+          <input class="form-input" id="f-image" type="url" placeholder="https://images.unsplash.com/..."/>
+          <div class="form-hint">Paste an Unsplash or any image URL.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-date">Date <span class="req">*</span></label>
+          <input class="form-input" id="f-date" type="text" placeholder="e.g. March 22, 2026"/>
+        </div>
+      </div>
+
+      <!-- VALID UNTIL + CTA -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-valid">Valid Until / Event Date</label>
+          <input class="form-input" id="f-valid" type="text" placeholder="e.g. Valid until Dec 31, 2026"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-cta">Button Label</label>
+          <input class="form-input" id="f-cta" type="text" placeholder="e.g. Book Now, Reserve a Seat"/>
+        </div>
+      </div>
+
+      <!-- TOGGLES -->
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Mark as "New"</div>
+          <div class="toggle-sub">Shows a gold "New" badge on the card</div>
+        </div>
+        <button class="toggle" id="toggle-new" onclick="toggleBtn('toggle-new')"></button>
+      </div>
+
+      <!-- ACTIONS -->
+      <button class="btn-submit" id="submitBtn" onclick="generateCode()">
+        <i class="fa-solid fa-code"></i> Generate Code
+      </button>
+      <button class="btn-clear" onclick="clearForm()">
+        <i class="fa-solid fa-rotate-left" style="margin-right:.3rem;"></i> Clear Form
+      </button>
+    </div>
+
+    <!-- CODE OUTPUT -->
+    <div class="code-panel panel" id="codePanel" style="display:none;">
+      <div class="code-header">
+        <div class="code-title"><i class="fa-solid fa-code" style="margin-right:.4rem;color:var(--gold);"></i>Generated Code — Copy This</div>
+        <button class="btn-copy" onclick="copyCode()"><i class="fa-solid fa-copy"></i> Copy</button>
+      </div>
+      <div class="code-box" id="codeOutput"></div>
+
+      <div class="instructions">
+        <div class="inst-title"><i class="fa-solid fa-circle-info"></i> How to add this to your website</div>
+        <div class="inst-step"><span class="inst-num">1</span><span>Open <strong>announcements.html</strong> in your code editor (VS Code, Notepad++, etc.)</span></div>
+        <div class="inst-step"><span class="inst-num">2</span><span>Find the line that says <code style="background:#e8dfcf;padding:1px 4px;">const ANNOUNCEMENTS = [</code></span></div>
+        <div class="inst-step"><span class="inst-num">3</span><span>Paste the copied code right after that opening bracket <code style="background:#e8dfcf;padding:1px 4px;">[</code> and before the first existing item</span></div>
+        <div class="inst-step"><span class="inst-num">4</span><span>Add a comma after your pasted code if there are existing items below it</span></div>
+        <div class="inst-step"><span class="inst-num">5</span><span>Save the file. Your announcement will now appear on the live page!</span></div>
+        <div class="inst-step"><span class="inst-num">6</span><span>To also notify subscribers, go to <strong>mailchimp.com</strong> → Campaigns → Create Email → send to your list</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: CURRENT LIST -->
+  <div>
+    <div class="panel">
+      <div class="list-header">
+        <div>
+          <div class="panel-title">Current <em>Announcements</em></div>
+          <div class="panel-sub" id="listTotal">Loading...</div>
+        </div>
+      </div>
+      <input class="list-search" id="listSearch" type="text" placeholder="Search announcements..." oninput="searchList(this.value)"/>
+      <div style="height:.8rem;"></div>
+      <div class="ann-list" id="annList"></div>
+    </div>
+
+    <!-- MAILCHIMP REMINDER -->
+    <div class="panel" style="margin-top:2rem;background:var(--dark);">
+      <div style="display:flex;align-items:flex-start;gap:.8rem;">
+        <i class="fa-brands fa-mailchimp" style="color:var(--gold-light);font-size:1.4rem;margin-top:.1rem;flex-shrink:0;"></i>
+        <div>
+          <div style="font-family:var(--serif);font-size:1.1rem;font-weight:300;color:var(--cream);margin-bottom:.4rem;">Notify Subscribers via Mailchimp</div>
+          <div style="font-size:.75rem;font-weight:300;color:rgba(247,243,237,.45);line-height:1.7;margin-bottom:1rem;">After adding an announcement to your website, send a campaign to notify all your email subscribers.</div>
+          <a href="https://mailchimp.com/create-campaign/" target="_blank" style="font-family:var(--sans);font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:.7rem 1.4rem;background:var(--gold);color:var(--dark);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:background .3s;">
+            <i class="fa-solid fa-envelope"></i> Open Mailchimp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Sync ANNOUNCEMENTS from announcements.html (simulated here — same data)
+const ANNOUNCEMENTS = [
+  {id:1,category:'promo',title:'Summer Escape Package — Up to 30% Off',date:'March 20, 2026',isNew:true},
+  {id:2,category:'event',title:'Midsummer Wine & Sunset Gala',date:'March 15, 2026',isNew:true},
+  {id:3,category:'news',title:'Velàra Thermal Spa Wins Condé Nast Award',date:'March 10, 2026',isNew:false},
+  {id:4,category:'promo',title:'Honeymoon Package — Romance Redefined',date:'March 5, 2026',isNew:false},
+  {id:5,category:'event',title:"Chef's Table Dinner — April Edition",date:'February 28, 2026',isNew:false},
+  {id:6,category:'news',title:'New: Private Helicopter Transfers Now Available',date:'February 20, 2026',isNew:false},
+];
+
+// State
+let selectedCat = '';
+let toggleNew = false;
+let nextId = ANNOUNCEMENTS.length + 1;
+
+// CAT SELECT
+function selectCat(cat){
+  selectedCat = cat;
+  document.getElementById('f-cat').value = cat;
+  ['promo','event','news'].forEach(c=>{
+    const btn = document.getElementById('cat-'+c);
+    btn.className = 'cat-btn' + (c===cat ? ' active-'+c : '');
+  });
+}
+
+// TOGGLE
+function toggleBtn(id){
+  const el = document.getElementById(id);
+  el.classList.toggle('on');
+  if(id==='toggle-new') toggleNew = el.classList.contains('on');
+}
+
+// CHAR COUNT
+function charCount(inputId, countId, max){
+  const val = document.getElementById(inputId).value.length;
+  document.getElementById(countId).textContent = val + ' / ' + max;
+}
+
+// GENERATE CODE
+function generateCode(){
+  const cat = selectedCat;
+  const title = document.getElementById('f-title').value.trim();
+  const excerpt = document.getElementById('f-excerpt').value.trim();
+  const content = document.getElementById('f-content').value.trim();
+  const image = document.getElementById('f-image').value.trim();
+  const date = document.getElementById('f-date').value.trim();
+  const valid = document.getElementById('f-valid').value.trim() || 'No expiry';
+  const cta = document.getElementById('f-cta').value.trim() || 'Close';
+
+  if(!cat){ showToast('Please select a category.','error'); return; }
+  if(!title){ showToast('Please enter a title.','error'); return; }
+  if(!excerpt){ showToast('Please enter a short description.','error'); return; }
+  if(!content){ showToast('Please enter the full content.','error'); return; }
+  if(!date){ showToast('Please enter a date.','error'); return; }
+
+  const safeContent = content.replace(/`/g,'\\`').replace(/\\/g,'\\\\');
+  const code = `  {
+    id: ${nextId},
+    category: '${cat}',
+    title: '${title.replace(/'/g,"\\'")}',
+    excerpt: '${excerpt.replace(/'/g,"\\'")}',
+    content: \`${safeContent}\`,
+    image: '${image}',
+    date: '${date}',
+    validUntil: '${valid.replace(/'/g,"\\'")}',
+    isNew: ${toggleNew},
+    cta: '${cta}',
+  },`;
+
+  document.getElementById('codeOutput').textContent = code;
+  document.getElementById('codePanel').style.display = 'block';
+  document.getElementById('codePanel').scrollIntoView({behavior:'smooth',block:'start'});
+  showToast('Code generated! Copy and paste it into announcements.html', 'success');
+}
+
+// COPY CODE
+function copyCode(){
+  const text = document.getElementById('codeOutput').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    showToast('Code copied to clipboard!','success');
+  }).catch(()=>{
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Code copied!','success');
+  });
+}
+
+// CLEAR FORM
+function clearForm(){
+  ['f-title','f-excerpt','f-content','f-image','f-date','f-valid','f-cta'].forEach(id=>{
+    document.getElementById(id).value = '';
+  });
+  selectedCat = '';
+  document.getElementById('f-cat').value = '';
+  ['promo','event','news'].forEach(c=>{ document.getElementById('cat-'+c).className='cat-btn'; });
+  const tn = document.getElementById('toggle-new');
+  tn.classList.remove('on'); toggleNew = false;
+  ['cc-title','cc-excerpt'].forEach(id=>{ document.getElementById(id).textContent='0 / '+(id==='cc-title'?90:200); });
+  document.getElementById('codePanel').style.display = 'none';
+}
+
+// TOAST
+function showToast(msg, type='success'){
+  const t = document.getElementById('toast');
+  t.className = 'toast show ' + type;
+  t.querySelector('i').className = type==='success' ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-exclamation';
+  document.getElementById('toastMsg').textContent = msg;
+  setTimeout(()=>{ t.classList.remove('show'); }, 3500);
+}
+
+// RENDER LIST
+const catColors = {promo:'#F4A261',event:'#5A9BD4',news:'#7BAF4A'};
+const catNames  = {promo:'Promotion',event:'Event',news:'Hotel News'};
+
+function renderList(items){
+  const list = document.getElementById('annList');
+  if(!items.length){
+    list.innerHTML = '<div class="empty-list"><i class="fa-regular fa-bell-slash"></i>No announcements found.</div>';
+    return;
+  }
+  list.innerHTML = items.map(a=>`
+    <div class="ann-list-item">
+      <span class="ali-cat-dot ${a.category}" style="background:${catColors[a.category]};"></span>
+      <div>
+        <div class="ali-title">${a.title}${a.isNew?'<span class="ali-new">New</span>':''}</div>
+        <div class="ali-meta">
+          <span>${catNames[a.category]}</span>
+          <span><i class="fa-regular fa-clock" style="margin-right:.2rem;"></i>${a.date}</span>
+        </div>
+      </div>
+      <div class="ali-actions">
+        <button class="ali-btn edit" title="Edit (copy ID and update in announcements.html)" onclick="showToast('To edit: find id:${a.id} in announcements.html and update the values.','success')"><i class="fa-solid fa-pen"></i></button>
+        <button class="ali-btn del" title="Delete (remove from announcements.html)" onclick="showToast('To delete: find id:${a.id} in announcements.html and remove that object.','error')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>`).join('');
+}
+
+function searchList(q){
+  const filtered = ANNOUNCEMENTS.filter(a=>
+    a.title.toLowerCase().includes(q.toLowerCase()) ||
+    catNames[a.category].toLowerCase().includes(q.toLowerCase())
+  );
+  renderList(filtered);
+}
+
+// INIT
+document.getElementById('listTotal').textContent = ANNOUNCEMENTS.length + ' announcements';
+renderList(ANNOUNCEMENTS);
+
+// Set today's date
+const today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+document.getElementById('f-date').value = today;
+</script>
+</body>
+</html>
