@@ -73,26 +73,35 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .section-title em{font-style:italic;color:var(--gold);}
 .section-body{font-size:.85rem;font-weight:300;line-height:1.9;color:var(--mid);margin-bottom:2.5rem;}
 
-/* GOOGLE FORM EMBED */
-.gform-wrap{position:relative;background:#fff;border:1px solid var(--beige);overflow:hidden;}
-.gform-header{background:var(--dark);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
-.gform-header-title{font-family:var(--serif);font-size:1rem;font-weight:300;color:var(--cream);}
-.gform-header-title em{font-style:italic;color:var(--gold-light);}
-.gform-open-btn{font-family:var(--sans);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.45rem 1rem;border:1px solid var(--gold);color:var(--gold-light);background:transparent;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:all .3s;white-space:nowrap;}
-.gform-open-btn:hover{background:var(--gold);color:var(--dark);}
-.gform-iframe-wrap{position:relative;}
-.gform-iframe{width:100%;height:900px;border:none;display:block;}
-/* Placeholder shown when no form URL yet */
-.gform-placeholder{padding:4rem 2rem;text-align:center;background:#faf8f5;}
-.gform-placeholder i{font-size:2.5rem;color:var(--warm);margin-bottom:1.2rem;display:block;}
-.gform-placeholder h3{font-family:var(--serif);font-size:1.4rem;font-weight:300;color:var(--dark);margin-bottom:.6rem;}
-.gform-placeholder p{font-size:.8rem;font-weight:300;color:var(--mid);line-height:1.8;margin-bottom:1.5rem;max-width:420px;margin-left:auto;margin-right:auto;}
-.setup-steps{text-align:left;max-width:460px;margin:0 auto;}
-.setup-step{display:flex;gap:.8rem;margin-bottom:.9rem;font-size:.8rem;color:var(--mid);line-height:1.6;}
-.setup-step-num{font-family:var(--serif);font-size:1.1rem;color:var(--gold);flex-shrink:0;font-weight:300;line-height:1.1;}
-.setup-step code{background:var(--beige);padding:1px 5px;font-size:.75rem;font-family:monospace;}
-.setup-link{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--sans);font-size:.68rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:.75rem 1.6rem;background:var(--gold);color:var(--dark);text-decoration:none;transition:background .3s;margin-top:.5rem;}
-.setup-link:hover{background:var(--gold-light);}
+/* RESERVATION FORM */
+.res-form-wrap{background:#fff;border:1px solid var(--beige);padding:2.5rem;}
+.res-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem 1.5rem;}
+.field{display:flex;flex-direction:column;gap:.45rem;}
+.field.full{grid-column:1 / -1;}
+.field label{font-size:.65rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);}
+.field label .req{color:var(--gold);margin-left:.15rem;}
+.field input,
+.field select,
+.field textarea{font-family:var(--sans);font-size:.88rem;font-weight:300;color:var(--text);background:var(--cream);border:1px solid var(--beige);padding:.85rem 1rem;outline:none;transition:border-color .25s,background .25s;width:100%;}
+.field input:focus,
+.field select:focus,
+.field textarea:focus{border-color:var(--gold);background:#fff;}
+.field textarea{resize:vertical;min-height:110px;line-height:1.6;}
+.field select{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23B8960C' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;}
+.form-note{font-size:.72rem;font-weight:300;color:var(--mid);line-height:1.7;margin-top:1.6rem;padding-top:1.3rem;border-top:1px solid var(--beige);}
+.form-note i{color:var(--gold);margin-right:.4rem;}
+.form-actions{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1.8rem;flex-wrap:wrap;}
+.submit-btn{font-family:var(--sans);font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;padding:1rem 2.4rem;background:var(--dark);color:var(--gold-light);border:1px solid var(--dark);cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:.6rem;}
+.submit-btn:hover{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+.reset-btn{font-family:var(--sans);font-size:.66rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:4px;}
+.reset-btn:hover{color:var(--gold);}
+.form-success{display:none;padding:2.5rem 2rem;text-align:center;background:#faf8f5;border:1px solid var(--beige);}
+.form-success.show{display:block;}
+.form-success i{font-size:2.4rem;color:var(--gold);margin-bottom:1rem;display:block;}
+.form-success h3{font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--dark);margin-bottom:.6rem;}
+.form-success h3 em{font-style:italic;color:var(--gold);}
+.form-success p{font-size:.85rem;font-weight:300;color:var(--mid);line-height:1.8;max-width:440px;margin:0 auto;}
+@media(max-width:640px){.res-form-wrap{padding:1.6rem;}.res-form-grid{grid-template-columns:1fr;}}
 
 /* SIDEBAR */
 .sidebar{}
@@ -224,93 +233,96 @@ footer{background:#1a1208;padding:3rem 4rem 2rem;color:rgba(247,243,237,.5);}
     <h2 class="section-title">Book Your <em>Stay</em></h2>
     <p class="section-body">Fill in your details below. Our reservations team personally reviews every request and will send a confirmation email within 2 hours.</p>
 
-    <div class="gform-wrap">
-      <div class="gform-header">
-        <div class="gform-header-title">Velàra <em>Reservation Form</em></div>
-        <!-- ✏️ REPLACE the href below with your Google Form link -->
-        <a class="gform-open-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSdzEdJOIZpVxwn4tPtAZn1FvCrWsb4X6vP67bY0bTrnlxAgKA/viewform" target="_blank" id="openFormBtn">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in new tab
-        </a>
-      </div>
+    <div class="res-form-wrap">
+      <form id="reservationForm" novalidate>
+        <div class="res-form-grid">
 
-      <div class="gform-iframe-wrap" id="iframeWrap">
-
-        <!-- ============================================================
-          ✏️  HOW TO SET UP YOUR GOOGLE FORM — READ THIS!
-          ============================================================
-          STEP 1: Go to forms.google.com → click "+" to create new form
-          STEP 2: Set the title to "Velàra — Reservation Request"
-          STEP 3: Add these questions:
-            • Full Name (Short answer, Required)
-            • Email Address (Short answer, Required)
-            • Phone / WhatsApp (Short answer, Required)
-            • Room Type (Multiple choice, Required)
-                Options: Deluxe Ocean Room / Premium Caldera Suite /
-                         Honeymoon Cave Suite / Sunset Pool Suite /
-                         Aegean Garden Villa / Grand Family Suite /
-                         Superior Sea View Room / Royal Penthouse
-            • Check-in Date (Date, Required)
-            • Check-out Date (Date, Required)
-            • Number of Guests (Multiple choice, Required)
-                Options: 1 Adult / 2 Adults / 2 Adults + 1 Child /
-                         2 Adults + 2 Children / 3+ Adults / Group (6+)
-            • Special Requests (Paragraph, Optional)
-            • Payment Method Preference (Multiple choice)
-                Options: Credit Card / Bank Transfer / GCash / PayMaya /
-                         Will discuss with team
-          STEP 4: Click "Send" → click the chain/link icon → click
-                  "< >" (Embed) tab → copy the iframe src URL
-                  It looks like:
-                  https://docs.google.com/forms/d/e/XXXXX/viewform?embedded=true
-          STEP 5: In this file, find the TWO lines that say:
-                  YOUR_GOOGLE_FORM_EMBED_URL  → replace with the embed URL
-                  YOUR_GOOGLE_FORM_LINK       → replace with the direct link
-          ============================================================ -->
-
-        <!-- ✏️ REPLACE "YOUR_GOOGLE_FORM_EMBED_URL" below with your embed URL -->
-        <iframe
-          id="gformIframe"
-          src="https://docs.google.com/forms/d/e/1FAIpQLSdzEdJOIZpVxwn4tPtAZn1FvCrWsb4X6vP67bY0bTrnlxAgKA/viewform?embedded=true"
-          class="gform-iframe" style="height:1759px;"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          title="Velàra Reservation Form">
-          Loading form...
-        </iframe>
-
-        <!-- PLACEHOLDER — shows when src is still "YOUR_GOOGLE_FORM_EMBED_URL" -->
-        <div class="gform-placeholder" id="gformPlaceholder" style="display:none;">
-          <i class="fa-brands fa-google" style="color:var(--gold);"></i>
-          <h3>Google Form Not Connected Yet</h3>
-          <p>Follow these steps to connect your Google Form to this page:</p>
-          <div class="setup-steps">
-            <div class="setup-step">
-              <span class="setup-step-num">1</span>
-              <span>Go to <a href="https://forms.google.com" target="_blank" style="color:var(--gold);">forms.google.com</a> and create your reservation form with all the required fields.</span>
-            </div>
-            <div class="setup-step">
-              <span class="setup-step-num">2</span>
-              <span>Click <strong>Send</strong> → click the <strong>&lt;&gt; Embed</strong> icon → copy the iframe <code>src</code> URL.</span>
-            </div>
-            <div class="setup-step">
-              <span class="setup-step-num">3</span>
-              <span>Open <code>reserve.html</code> → find <code>YOUR_GOOGLE_FORM_EMBED_URL</code> and replace it with your URL.</span>
-            </div>
-            <div class="setup-step">
-              <span class="setup-step-num">4</span>
-              <span>Also replace <code>YOUR_GOOGLE_FORM_LINK</code> with the direct shareable link to your form.</span>
-            </div>
-            <div class="setup-step">
-              <span class="setup-step-num">5</span>
-              <span>Save the file — your form will now appear here and guests can fill it in directly on the page!</span>
-            </div>
+          <div class="field">
+            <label for="fullName">Full Name <span class="req">*</span></label>
+            <input type="text" id="fullName" name="fullName" placeholder="Juan Dela Cruz" required>
           </div>
-          <a class="setup-link" href="https://forms.google.com" target="_blank">
-            <i class="fa-brands fa-google"></i> Create Google Form Now
-          </a>
+
+          <div class="field">
+            <label for="email">Email Address <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone / WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+63 917 000 0000" required>
+          </div>
+
+          <div class="field">
+            <label for="roomType">Room Type <span class="req">*</span></label>
+            <select id="roomType" name="roomType" required>
+              <option value="" disabled selected>Select a suite…</option>
+              <option>Deluxe Ocean Room</option>
+              <option>Premium Caldera Suite</option>
+              <option>Honeymoon Cave Suite</option>
+              <option>Sunset Pool Suite</option>
+              <option>Aegean Garden Villa</option>
+              <option>Grand Family Suite</option>
+              <option>Superior Sea View Room</option>
+              <option>Royal Penthouse</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="checkIn">Check-in Date <span class="req">*</span></label>
+            <input type="date" id="checkIn" name="checkIn" required>
+          </div>
+
+          <div class="field">
+            <label for="checkOut">Check-out Date <span class="req">*</span></label>
+            <input type="date" id="checkOut" name="checkOut" required>
+          </div>
+
+          <div class="field">
+            <label for="guests">Number of Guests <span class="req">*</span></label>
+            <select id="guests" name="guests" required>
+              <option value="" disabled selected>Select…</option>
+              <option>1 Adult</option>
+              <option>2 Adults</option>
+              <option>2 Adults + 1 Child</option>
+              <option>2 Adults + 2 Children</option>
+              <option>3+ Adults</option>
+              <option>Group (6+)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="payment">Payment Method Preference</label>
+            <select id="payment" name="payment">
+              <option value="" disabled selected>Select…</option>
+              <option>Credit Card</option>
+              <option>Bank Transfer</option>
+              <option>GCash</option>
+              <option>PayMaya</option>
+              <option>Will discuss with team</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="requests">Special Requests</label>
+            <textarea id="requests" name="requests" placeholder="Anniversary celebration, dietary needs, airport transfer, early check-in…"></textarea>
+          </div>
+
         </div>
 
+        <p class="form-note"><i class="fa-solid fa-lock"></i>Your details are kept private. Our reservations team personally reviews every request and confirms within 2 hours.</p>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-btn">
+            <i class="fa-solid fa-paper-plane"></i> Submit Reservation
+          </button>
+          <button type="reset" class="reset-btn">Clear Form</button>
+        </div>
+      </form>
+
+      <div class="form-success" id="formSuccess">
+        <i class="fa-solid fa-circle-check"></i>
+        <h3>Reservation <em>Received</em></h3>
+        <p>Salamat! Naipadala na ang inyong request. Aabisuhan kayo ng aming reservations team sa loob ng 2 oras para sa confirmation at payment instructions.</p>
       </div>
     </div>
   </div>
@@ -442,17 +454,30 @@ function closeMenu() {
   document.body.style.overflow = '';
 }
 
-// Show placeholder if Google Form not yet connected
-window.addEventListener('load', () => {
-  const iframe = document.getElementById('gformIframe');
-  const placeholder = document.getElementById('gformPlaceholder');
-  const openBtn = document.getElementById('openFormBtn');
+// RESERVATION FORM
+const resForm = document.getElementById('reservationForm');
+const formSuccess = document.getElementById('formSuccess');
+const checkIn = document.getElementById('checkIn');
+const checkOut = document.getElementById('checkOut');
 
-  if (iframe.src.includes('YOUR_GOOGLE_FORM_EMBED_URL')) {
-    iframe.style.display = 'none';
-    placeholder.style.display = 'block';
-    openBtn.style.display = 'none';
+const today = new Date().toISOString().split('T')[0];
+checkIn.min = today;
+checkOut.min = today;
+checkIn.addEventListener('change', () => {
+  checkOut.min = checkIn.value || today;
+  if (checkOut.value && checkOut.value < checkIn.value) checkOut.value = '';
+});
+
+resForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!resForm.checkValidity()) { resForm.reportValidity(); return; }
+  if (checkOut.value <= checkIn.value) {
+    alert('Check-out date must be after check-in date.');
+    return;
   }
+  resForm.style.display = 'none';
+  formSuccess.classList.add('show');
+  formSuccess.scrollIntoView({behavior:'smooth', block:'center'});
 });
 </script>
 </body>
